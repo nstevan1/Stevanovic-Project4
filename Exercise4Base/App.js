@@ -17,7 +17,12 @@ const key = '@MyApp:key';
 export default class App extends Component {
   state = {
     text: '',
-    storedValue: '',
+    storedValueOne: '',
+    storedValueThree: '',
+    storedValueTwo: '',
+    valueOne: '',
+    valueThree: '',
+    valueTwo: '',
   };
 
   componentDidMount() {
@@ -26,8 +31,13 @@ export default class App extends Component {
 
   onLoad = async () => {
     try {
-      const storedValue = await AsyncStorage.getItem(key);
-      this.setState({ storedValue });
+      let storedValues = await AsyncStorage.getItem(key);
+      storedValues = JSON.parse(storedValues);
+      if(storedValues !== null) {
+        this.setState({ storedValueOne: storedValues[0] });
+        this.setState({ storedValueTwo: storedValues[1] });
+        this.setState({ storedValueThree: storedValues[2] });
+      }
     } catch (error) {
       Alert.alert('Error', 'There was an error while loading the data');
     }
@@ -35,8 +45,11 @@ export default class App extends Component {
 
   onSave = async () => {
     const { text } = this.state;
+    const { valueOne } = this.state;
+    const { valueThree } = this.state;
+    const { valueTwo } = this.state;
     try {
-      await AsyncStorage.setItem(key, text);
+      await AsyncStorage.setItem(key, JSON.stringify([valueOne, valueTwo, valueThree]));
       Alert.alert('Saved', 'Successfully saved on device');
     } catch (error) {
       Alert.alert('Error', 'There was an error while saving the data');
@@ -48,19 +61,55 @@ export default class App extends Component {
   }
 
   render() {
-    const { storedValue } = this.state;
+    const { storedValueOne } = this.state;
+    const { storedValueThree } = this.state;
+    const { storedValueTwo } = this.state;
     const { text } = this.state;
+    const { valueOne } = this.state;
+    const { valueThree } = this.state;
+    const { valueTwo } = this.state;
+    const storedValues = `${storedValueOne}\n${storedValueTwo}\n${storedValueThree}`;
 
     return (
       <View style={styles.container}>
-        <Text style={styles.preview}>{storedValue}</Text>
+        <Text style={styles.preview}>{storedValues}</Text>
         <View>
-          <TextInput
+          <Picker
+            // onChangeText={this.onChange}
+            // value={text}
+            // placeholder="Type something here..."
+            selectedValue={valueOne}
+            onValueChange={(value) => this.setState({ valueOne: value })}
             style={styles.input}
-            onChangeText={this.onChange}
-            value={text}
-            placeholder="Type something here..."
-          />
+          >
+            <Picker.Item label='1 Star' value='1 Star' />
+            <Picker.Item label='2 Stars' value='2 Stars' />
+            <Picker.Item label='3 Stars' value='3 Stars' />
+            <Picker.Item label='4 Stars' value='4 Stars' />
+            <Picker.Item label='5 Stars' value='5 Stars' />
+          </Picker>
+          <Picker
+            selectedValue={valueTwo}
+            onValueChange={(value) => this.setState({ valueTwo: value })}
+            style={styles.input}
+          >
+            <Picker.Item label='1 Star' value='1 Star' />
+            <Picker.Item label='2 Stars' value='2 Stars' />
+            <Picker.Item label='3 Stars' value='3 Stars' />
+            <Picker.Item label='4 Stars' value='4 Stars' />
+            <Picker.Item label='5 Stars' value='5 Stars' />
+          </Picker>
+          <Picker
+            selectedValue={valueThree}
+            onValueChange={(value) => this.setState({ valueThree: value })}
+            style={styles.input}
+          >
+            <Picker.Item label='1 Star' value='1 Star' />
+            <Picker.Item label='2 Stars' value='2 Stars' />
+            <Picker.Item label='3 Stars' value='3 Stars' />
+            <Picker.Item label='4 Stars' value='4 Stars' />
+            <Picker.Item label='5 Stars' value='5 Stars' />
+          </Picker>
           <TouchableOpacity onPress={this.onSave} style=
             {styles.button}>
             <Text>Save locally</Text>
