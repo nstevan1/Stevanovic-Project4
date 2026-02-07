@@ -14,16 +14,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const key = '@MyApp:key';
 const playlist = [
   {
+    title: 'Hunted By A Freak',
+    uri: 'https://ia601509.us.archive.org/17/items/mogwai2017-10-20.brussels.fm/Mogwai2017-10-20Brussels-07.mp3'
+  },
+  {
     title: 'Nervous Tic Motion of the Head to the Left',
     uri: 'https://ia800503.us.archive.org/8/items/andrewbird2011-01-28.early.dr7.flac16/andrewbird2011-01-28.early.t07.mp3'
   },
   {
     title: 'People Watching',
     uri: 'https://ia800308.us.archive.org/7/items/kwilliams2012-09-22.at853.flac16/kwilliams2012-09-22at853.t16.mp3'
-  },
-  {
-    title: 'Hunted By A Freak',
-    uri: 'https://ia601509.us.archive.org/17/items/mogwai2017-10-20.brussels.fm/Mogwai2017-10-20Brussels-07.mp3'
   }
 ];
 
@@ -136,25 +136,16 @@ export default class App extends Component {
         </Text>
         {this.renderSongInfo()}
         <View style={styles.controls}>
-          <TouchableOpacity
-            onPress={this.handlePreviousTrack}
-            style={styles.control}
-          >
+          <TouchableOpacity onPress={this.handlePreviousTrack} style={styles.control}>
             <Feather color='#ffffff' name='skip-back' size={32} />
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={this.handlePlayPause}
-            style={styles.control}
-          >
+          <TouchableOpacity onPress={this.handlePlayPause} style={styles.control}>
             {this.state.isPlaying ?
               <Feather color='#ffffff' name='pause' size={32} /> :
               <Feather color='#ffffff' name='play' size={32} />
             }
           </TouchableOpacity>
-          <TouchableOpacity
-            onPress={this.handleNextTrack}
-            style={styles.control}
-          >
+          <TouchableOpacity onPress={this.handleNextTrack} style={styles.control}>
             <Feather color='#ffffff' name='skip-forward' size={32} />
           </TouchableOpacity>
         </View>
